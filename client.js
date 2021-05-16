@@ -1,25 +1,16 @@
 $(document).ready(readyNow);
 
-const employeeArray = []
+let totalSalary = 0
 
 function readyNow() {
     console.log('jQ ready')
-
-
-    $('#submit').on('click', onClick, addEmployee)
-    $('#delete').on('click', '.deleteBtn', onDelete);
+    $('#submit').on('click', addEmployee)
+  
 }
 
-function onClick() {
-
-    console.log('CLICK!')
-}
-
-function onDelete() {
-
-    console.log("BEGON")
-
+function onDelete(salary) {
     $(this).closest('tr').remove();
+    totalSalary = totalSalary - parseInt(salary)
     //$(this).closest('box').remove();
     //<td> <button class = "btn delete">Delete</button> </td>
 }
@@ -38,26 +29,28 @@ function addEmployee() {
 
 
     }
-    
-    employeeArray.push(employee)
-
+    if (employee.annualSalary > 0) {
+        totalSalary = totalSalary + parseInt(employee.annualSalary)
+    } else {
+        console.log(`${employee.annualSalary} isn't a number you halfwit`)
+    }
+    $('#totalMonthly').html(`Total Monthly: $${totalSalary}`)
     //if()
 
-    $('.table').append(`
+    $('#employeeTable').append(`
         <tr> 
             <td>${employee.name}</td>
-            <td>${employee.lastName}</td
-            <td>${employee.ID}</td
-            <td>${employee.Title}</td
-            <td>${employee.annualSalary}</td
-            <td>${employee}</td
-            <td> <button class = deleteBtn"Delete</button</td
+            <td>${employee.lastName}</td>
+            <td>${employee.ID}</td>
+            <td>${employee.Title}</td>
+            <td>${employee.annualSalary}</td>
+            <td> <button class = "deleteBtn">Delete</button</td>
         </tr>
         
         
         
     `)
-
+    $('.deleteBtn').on('click', onDelete(employee.annualSalary));
     //clear input
 
     $('#nameIn').val('');
@@ -66,11 +59,24 @@ function addEmployee() {
     $('#titleIn').val('');
     $('#annualSalaryIn').val('');
 
-    
-    console.log(employee.name, employee.lastName, employee.ID, employee.Title, employee.annualSalary);
-
+    if (totalSalary > 20000) {
+        $('#monthlyColor').addClass('bg-danger')
+    }
+    console.log(employee);
+    //.name, employee.lastName, employee.ID, employee.Title, employee.annualSalary
 
 }
+
+
+  
+
+
+// function  Calculator(){
+
+//     let salaryCalculator = 0;
+
+//     console.log('testing')
+
 
 
 
